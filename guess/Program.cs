@@ -11,7 +11,7 @@ namespace guess
     {
         static void Main(string[] args)
         {
-            string[] files = { "english-words.txt", "other.txt" }; // A list of dictionary files to use.
+            string[] files = { "dictionary.txt", "other.txt" }; // A list of dictionary files to use.
             WordList words = new WordList();
 
             // Parse the files with error control.
@@ -32,7 +32,7 @@ namespace guess
 
             //Console.WriteLine(inCommon("trucks", "staple"));
 
-            while (true)
+            while (words.Count>0)
             {
                 int currentGuesses = 1;
                 int maxGuesses = 0;
@@ -44,7 +44,8 @@ namespace guess
                 maxGuesses = length + 2; // Player gets length of word in guesses, plus 2.
 
                 Console.WriteLine(new String('=', 50));
-                Console.WriteLine("The word is " + new String('*', length) + " (" + length + " letters) " + word);
+                Console.WriteLine("The word is " + new String('*', length) + " (" + length + " letters)");
+                //Console.WriteLine("The word is " + new String('*', length) + " (" + length + " letters) " + word);
                 Console.WriteLine("You have " + maxGuesses + " guess, good luck!");
                 Console.WriteLine(new String('=', 50));
 
@@ -69,15 +70,23 @@ namespace guess
                             Console.WriteLine("-> You got it on the " + currentGuesses + prefix + " guess, congratulations!");
                             currentGuesses = 999; // Force game to end by exceeding guesses.
                         }
-                        Console.WriteLine("-> " + input + " -> " + inCommon(input, word) + " letters in common.");
 
-                        currentGuesses++; // Increase current guesses.
+                        if (input.Length == length)
+                        {
+                            Console.WriteLine("-> " + input + " -> " + inCommon(input, word) + " letters in common.");
+                            currentGuesses++; // Increase current guesses.
+                        }
+                        else
+                        {
+                            Console.WriteLine("-> The word you guessed is not " + length + " letters long!");
+                        }
                     }
                     else
                     {
                         Console.WriteLine("-> That's not a real word, is it?");
                     }
                 } while (currentGuesses <= maxGuesses);
+                Console.WriteLine("-> So close!  The word you were looking for was " + word + "."); 
             }
         }
 
